@@ -1,0 +1,30 @@
+Stockouts can happen for many reasons:
+    Inventory miscounts
+    Demand surges
+    Delayed suppliers
+    Limited cash 
+
+Whatever the reason, it’s disheartening as a customer to experience a stockout. SCM helps you manage logistical challenges and forecast more accurately so you can reduce stockouts and see higher profits. 
+
+objectives
+    Manage inventory costs
+    Avoid stockouts
+    Build customer trust
+    Gain competitive advantage
+
+
+i. Supply:
+
+It focuses on the raw materials supplied to manufacturing, including how, when, and from what location.
+
+ii. Manufacturing:
+
+It focuses on converting these raw materials into finished products.
+
+ADVERTISEMENTS:
+
+iii. Distribution:
+
+It focuses on ensuring that these products reach the consumers through an organized network of distributors, warehouses, and retailers.
+
+A Typical Supply Chain 
