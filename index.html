@@ -7,32 +7,55 @@
 </head><body>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
     type="application/javascript"></script>
-    <script>
-        
-        function asd()
-        {
-        //console.log("WALLET CONNECT");
-        //ethereum.request({ method: 'eth_requestAccounts' });
-        // A Web3Provider wraps a standard Web3 provider, which is
-        // what MetaMask injects as window.ethereum into each page
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
+    <script src="abi.js" type="application/javascript"></script>
     
-        // MetaMask requires requesting permission to connect users accounts
-        provider.send("eth_requestAccounts", []);
-    
-        // The MetaMask plugin also allows signing transactions to
-        // send ether and pay to change state within the blockchain.
-        // For this, you need the account signer...
-        const signer = provider.getSigner();
-        //https://docs.ethers.org/v5/getting-started/
-        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
-        document.getElementById("connected").innerHTML = "Wallet connected"
-        }
-    </script>
 <h1> WASSAAAP </h1>
 <button onclick="asd()">connaact</button>
 <p id="connected"></p>
+<p id="data"></p>
+<p id="data1"></p>
 
+<script>
+    async function asd()
+    {
+    //console.log("WALLET CONNECT");
+    //ethereum.request({ method: 'eth_requestAccounts' });
+    // A Web3Provider wraps a standard Web3 provider, which is
+    // what MetaMask injects as window.ethereum into each page
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+    // MetaMask requires requesting permission to connect users accounts
+    provider.send("eth_requestAccounts", []);
+
+    // The MetaMask plugin also allows signing transactions to
+    // send ether and pay to change state within the blockchain.
+    // For this, you need the account signer...
+    const signer = provider.getSigner();
+    //https://docs.ethers.org/v5/getting-started/
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
+    ADDRESS = signer.getAddress()
+    bl = await provider.getBalance(ADDRESS)
+    document.getElementById("connected").innerHTML = "Wallet connected"
+    contractAdr = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+    contractAbi = supplychainabi;
+    
+    const supplychain = new ethers.Contract(contractAdr, contractAbi, provider);
+    document.getElementById("data").innerHTML = bl + ' IS THE BALANCE OF WALLET'
+    
+    
+
+    try {
+        owner = await supplychain.owner();
+    }
+    catch(err) {
+        document.getElementById("data").innerHTML = err.message;
+    }
+
+    document.getElementById("data1").innerHTML = "owner is "+owner;
+    
+    
+    }
+</script>
 </body>
 
 </html>
