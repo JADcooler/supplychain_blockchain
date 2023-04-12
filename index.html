@@ -52,6 +52,10 @@
     }
 
     document.getElementById("data1").innerHTML = "owner is "+owner;
+    //The below methods are state changing and require a signer
+
+    withSigner = supplychain.connect(signer)
+
     
     
     }
