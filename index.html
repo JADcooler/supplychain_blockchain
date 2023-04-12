@@ -56,7 +56,37 @@
 
     withSigner = supplychain.connect(signer)
 
-    
+    //first to add an unit, we want all detail to the UNIT struct
+    //initial location can be just 0
+
+    function makeUNIT(index, responsibleAddress, expected_time, quantity, exp_latitude, exp_longitude, latitude, longitude, time_began)
+    {     
+        this.index = index;
+
+        this.responsibleAddress = responsibleAddress;   
+        this.expected_time = expected_time;
+        this.quantity = quantity;
+        this.exp_latitude = exp_latitude;
+        this.exp_longitude = exp_longitude;
+
+        
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.time_began = time_began;
+
+        return this;
+    }
+
+    function promptUNIT()
+    {
+        index = prompt("Enter index")
+        responsibleAddress = prompt("Enter responsible address")
+        expected_time = prompt("Enter expected time")
+        quantity = prompt("Enter quantity")
+        exp_latitude = prompt("Enter expected latitude")
+        exp_longitude = prompt("Enter expected longitude")
+        
+    }
     
     }
 </script>
