@@ -9,7 +9,7 @@
     type="application/javascript"></script>
     <script src="abi.js" type="application/javascript"></script>
     
-<h1> SUPPLYCHAIN MANAGEMENT</h1>
+<h1> SUPPLYCHAIN MANAGEMENT VENDOR</h1>
 <button onclick="asd()">connect</button>
 <p id="connected"></p>
 <p id="data"></p>
@@ -27,7 +27,6 @@
     // For this, you need the account signer...
     const signer = provider.getSigner();
 
-    //contractAdr = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
     contractAdr = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
     contractAbi = supplychainabi;
     
@@ -110,10 +109,10 @@
 
     async function writeDATA()
     {
-        a = promptUNIT()
-        document.getElementById('data').innerHTML = a;
-        console.log(a)
-        console.log({2:3, 4:4})
+        // a = promptUNIT()
+        // document.getElementById('data').innerHTML = a;
+        // console.log(a)
+        // console.log({2:3, 4:4})
 
         /*
         const obj = {
@@ -131,31 +130,13 @@
         time_began : 0
         }
             */
-        withSigner = await supplychain.connect(signer).add_unit(a, "vendor1")
-        //withSigner = await supplychain.connect(signer).emitLocation(a)
-
-        myAddress = await signer.getAddress()
-        // '0x8ba1f109551bD432803012645Ac136ddd64DBA72'
-
-        // Filter for all token transfers from me
-        //filterFrom = daiContract.filters.Transfer(myAddress, null);
-        // {
-        //   address: 'dai.tokens.ethers.eth',
-        //   topics: [
-        //     '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
-        //     '0x0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72'
-        //   ]
-        // }
-
         
 
         prn(withSigner)
 
-        prn("vendor successfully added as UNIT in block and emitted ")
+        prn("vendor emitted locations ")
 
     }
-
-
     
     
 </script>

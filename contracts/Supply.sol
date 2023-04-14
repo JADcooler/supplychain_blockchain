@@ -47,7 +47,7 @@ contract supplychain
 
     function add_unit(UNITS memory param, string memory vendor) public onlyOwner
     {
-        //responsible authority - RA
+     
         param.index = Movers.length;
         Movers.push(param);
 
