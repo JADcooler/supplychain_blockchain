@@ -220,7 +220,11 @@
         len = await provider.getStorageAt(supplychain.address, 2)
         console.log(len)
 
-
+        for(i=0;i<len;i++)
+        {
+            await supplychain.Movers(i)
+            
+        }
 
 
     }
