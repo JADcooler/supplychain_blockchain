@@ -24,7 +24,13 @@
 
 .seeSupp
 {
-    width:100%;
+    
+    border: 1px solid black;    
+    
+}
+
+td 
+{
     border: 1px solid black;    
 }
 
@@ -211,7 +217,26 @@
 
     }
 
+    function addRow() {
+      // Get the table element in which you want to add row
+      let table = document.getElementById("TABLE2");
+   
+      // Create a row using the inserRow() method and
+      // specify the index where you want to add the row
+      let row = table.insertRow(-1); // We are adding at the end
+   
+      // Create table cells
+      let c1 = row.insertCell(0);
+      let c2 = row.insertCell(1);
+      let c3 = row.insertCell(2);
+   
+      // Add data to c1 and c2
+      c1.innerText = "Elon"
+      c2.innerText = 45
+      c3.innerText = "Houston"
+   }
 
+    var c2 = 0;
     async function seeSuppliers()
     {
         x = await supplychain.Movers(0)
@@ -220,11 +245,93 @@
         len = await provider.getStorageAt(supplychain.address, 2)
         console.log(len)
 
-        for(i=0;i<len;i++)
+        if(c2==0)
         {
-            await supplychain.Movers(i)
+            x = document.getElementById("TABLE1")
+            x.style.display = 'block';
+            c2 =1;
+        }
+        else
+        {
+            x = document.getElementById("TABLE1")
+            x.style.display = 'none';
+            c2 =0;
+        }
+
+                
+        function checkIfCellsAreEmpty(row) {
+        var cells =  row.cells;
+        var isCellEmpty = false;
+            for(var j = 0; j < cells.length; j++) {
+                if(cells[j].innerHTML !== '') {
+                return isCellEmpty;
+                }
+            }
+            return !isCellEmpty;
+            }
+
+        function deleteEmptyRows() {
+        var myTable = document.getElementById("TABLE1");
+            for(var i = 0; i < myTable.rows.length; i++) {
+                var isRowEmpty = checkIfCellsAreEmpty(myTable.rows[i]);
+                if (isRowEmpty) {
+                    myTable.rows[i].style.display = "none";
+                }
+                
+            }
+        }
+
+        for(i=0;i<len;i+=1)
+        {            
+            console.log("value of i is "+i)
+            try
+            {
+                p = await supplychain.Movers(i)
+
+                console.log("len is " + len +" ITERATING "+i)
+                
+                console.log( i.toString() + ""  )
+
+                addRow() 
+                
+
+
+                // index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
+
+                // responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
+                // responsibleAddress.innerHTML = p['responsibleAddress'];
+
+                // expected_time = document.getElementById(i.toString() + "" + 3) //td //expected_time                    
+                // expected_time.innerHTML = p['expected_time'];
+
+                // quantity = document.getElementById(i.toString() + "" + 4) //td //quantity                    
+                // quantity.innerHTML = p['quantity'];
+
+                // exp_latitude = document.getElementById(i.toString() + "" + 5) //td //exp_latitude                    
+                // exp_latitude.innerHTML = p['exp_latitude'];
+
+                // exp_longitude = document.getElementById(i.toString() + "" + 6) //td //exp_longitude                    
+                // exp_longitude.innerHTML = p['exp_longitude'];
+
+                // latitude = document.getElementById(i.toString() + "" + 7) //td //latitude                    
+                // latitude.innerHTML = p['latitude'];
+
+                // longitude = document.getElementById(i.toString() + "" + 8) //td //longitude                    
+                // longitude.innerHTML = p['longitude'];
+                
+                // time_began = document.getElementById(i.toString() + "" + 9) //td //time_began                    
+                // time_began.innerHTML = p['time_began'];                 
+
+                
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
             
         }
+
+        deleteEmptyRows();
 
 
     }
@@ -364,7 +471,9 @@
 <p id="WRITE"></p>
 
 
-<table class="seeSupp" style="width:100%;border: 1px solid black;">
+<table class="seeSupp" id="TABLE1" style="display:none">
+ 
+    <tr>
     <th class="seeSupp">Index</th>
     <th class="seeSupp">responsibleAddress</th>
     <th class="seeSupp">expected time</th>
@@ -374,8 +483,9 @@
     <th class="seeSupp">latitude </th>
     <th class="seeSupp">longitude</th>
     <th class="seeSupp">time it began</th>
-
-    <tr id="0" style="display:none">
+    </tr>
+    
+    <tr id="0">
         <td class="seeSupp" id="01"></td>
         <td class="seeSupp" id="02"></td>
         <td class="seeSupp" id="03"></td>
@@ -386,8 +496,8 @@
         <td class="seeSupp" id="08"></td>
         <td class="seeSupp" id="09"></td>
     </tr>
-
-    <tr id="1" style="display:none">
+    
+    <tr id="1" >
         <td class="seeSupp" id="11"></td>
         <td class="seeSupp" id="12"></td>
         <td class="seeSupp" id="13"></td>
@@ -399,7 +509,7 @@
         <td class="seeSupp" id="19"></td>
     </tr>
 
-    <tr id="2" style="display:none">
+    <tr id="2" >
         <td class="seeSupp" id="21"></td>
         <td class="seeSupp" id="22"></td>
         <td class="seeSupp" id="23"></td>
@@ -411,7 +521,7 @@
         <td class="seeSupp" id="29"></td>
     </tr>
 
-    <tr id="3" style="display:none">
+    <tr id="3" >
         <td class="seeSupp" id="31"></td>
         <td class="seeSupp" id="32"></td>
         <td class="seeSupp" id="33"></td>
@@ -423,7 +533,7 @@
         <td class="seeSupp" id="39"></td>
     </tr>
 
-    <tr id="4" style="display:none">
+    <tr id="4" >
         <td class="seeSupp" id="41"></td>
         <td class="seeSupp" id="42"></td>
         <td class="seeSupp" id="43"></td>
@@ -435,7 +545,7 @@
         <td class="seeSupp" id="49"></td>
     </tr>
 
-    <tr id="5" style="display:none">
+    <tr id="5" >
         <td class="seeSupp" id="51"></td>
         <td class="seeSupp" id="52"></td>
         <td class="seeSupp" id="53"></td>
@@ -450,6 +560,19 @@
 
 </table>
 
+<table id="TABLE2" class="seeSupp">
+    <tr>
+        <th class="seeSupp">Index</th>
+        <th class="seeSupp">responsibleAddress</th>
+        <th class="seeSupp">expected time</th>
+        <th class="seeSupp">quantity</th>
+        <th class="seeSupp">expected latitude</th>
+        <th class="seeSupp">expected longitude</th>
+        <th class="seeSupp">latitude </th>
+        <th class="seeSupp">longitude</th>
+        <th class="seeSupp">time it began</th>
+    </tr>
+</table>
 
 
 </body>
