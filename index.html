@@ -47,7 +47,7 @@ td
     const signer = provider.getSigner();
 
     //contractAdr = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
-    contractAdr = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
+    contractAdr = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
     contractAbi = supplychainabi;
     
     const supplychain = new ethers.Contract(contractAdr, contractAbi, provider);
@@ -236,13 +236,40 @@ td
       c3.innerText = "Houston"
    }
 
+    
+    // function checkIfCellsAreEmpty(row) {
+    // var cells =  row.cells;
+    // var isCellEmpty = false;
+    //     for(var j = 0; j < cells.length; j++) {
+    //         if(cells[j].innerHTML !== '') {
+    //         return isCellEmpty;
+    //         }
+    //     }
+    //     return !isCellEmpty;
+    //     }
+
+    // function deleteEmptyRows() {
+    // var myTable = document.getElementById("TABLE1");
+    //     for(var i = 0; i < myTable.rows.length; i++) {
+    //         var isRowEmpty = checkIfCellsAreEmpty(myTable.rows[i]);
+    //         if (isRowEmpty) {
+    //             myTable.rows[i].style.display = "none";
+    //         }
+            
+    //     }
+    // }
+
+
     var c2 = 0;
     async function seeSuppliers()
     {
         x = await supplychain.Movers(0)
         console.log(x)
         console.log("printing length of movers array")
-        len = await provider.getStorageAt(supplychain.address, 2)
+        console.log(supplychain.address)
+        len = await provider.getStorageAt(supplychain.address, 2)        
+        console.log(len)
+        len = await supplychain.len();
         console.log(len)
 
         if(c2==0)
@@ -258,30 +285,9 @@ td
             c2 =0;
         }
 
-                
-        function checkIfCellsAreEmpty(row) {
-        var cells =  row.cells;
-        var isCellEmpty = false;
-            for(var j = 0; j < cells.length; j++) {
-                if(cells[j].innerHTML !== '') {
-                return isCellEmpty;
-                }
-            }
-            return !isCellEmpty;
-            }
+        
 
-        function deleteEmptyRows() {
-        var myTable = document.getElementById("TABLE1");
-            for(var i = 0; i < myTable.rows.length; i++) {
-                var isRowEmpty = checkIfCellsAreEmpty(myTable.rows[i]);
-                if (isRowEmpty) {
-                    myTable.rows[i].style.display = "none";
-                }
-                
-            }
-        }
-
-        for(i=0;i<len;i+=1)
+        for(i=1;i<len;i+=1)
         {            
             console.log("value of i is "+i)
             try
@@ -292,35 +298,32 @@ td
                 
                 console.log( i.toString() + ""  )
 
-                addRow() 
+
+                index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
+
+                responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
+                responsibleAddress.innerHTML = p['responsibleAddress'];
+
+                expected_time = document.getElementById(i.toString() + "" + 3) //td //expected_time                    
+                expected_time.innerHTML = p['expected_time'];
+
+                quantity = document.getElementById(i.toString() + "" + 4) //td //quantity                    
+                quantity.innerHTML = p['quantity'];
+
+                exp_latitude = document.getElementById(i.toString() + "" + 5) //td //exp_latitude                    
+                exp_latitude.innerHTML = p['exp_latitude'];
+
+                exp_longitude = document.getElementById(i.toString() + "" + 6) //td //exp_longitude                    
+                exp_longitude.innerHTML = p['exp_longitude'];
+
+                latitude = document.getElementById(i.toString() + "" + 7) //td //latitude                    
+                latitude.innerHTML = p['latitude'];
+
+                longitude = document.getElementById(i.toString() + "" + 8) //td //longitude                    
+                longitude.innerHTML = p['longitude'];
                 
-
-
-                // index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
-
-                // responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
-                // responsibleAddress.innerHTML = p['responsibleAddress'];
-
-                // expected_time = document.getElementById(i.toString() + "" + 3) //td //expected_time                    
-                // expected_time.innerHTML = p['expected_time'];
-
-                // quantity = document.getElementById(i.toString() + "" + 4) //td //quantity                    
-                // quantity.innerHTML = p['quantity'];
-
-                // exp_latitude = document.getElementById(i.toString() + "" + 5) //td //exp_latitude                    
-                // exp_latitude.innerHTML = p['exp_latitude'];
-
-                // exp_longitude = document.getElementById(i.toString() + "" + 6) //td //exp_longitude                    
-                // exp_longitude.innerHTML = p['exp_longitude'];
-
-                // latitude = document.getElementById(i.toString() + "" + 7) //td //latitude                    
-                // latitude.innerHTML = p['latitude'];
-
-                // longitude = document.getElementById(i.toString() + "" + 8) //td //longitude                    
-                // longitude.innerHTML = p['longitude'];
-                
-                // time_began = document.getElementById(i.toString() + "" + 9) //td //time_began                    
-                // time_began.innerHTML = p['time_began'];                 
+                time_began = document.getElementById(i.toString() + "" + 9) //td //time_began                    
+                time_began.innerHTML = p['time_began'];                 
 
                 
             }
@@ -331,7 +334,7 @@ td
             
         }
 
-        deleteEmptyRows();
+        
 
 
     }
@@ -561,7 +564,7 @@ td
 </table>
 
 <table id="TABLE2" class="seeSupp">
-    <tr>
+    <!-- <tr>
         <th class="seeSupp">Index</th>
         <th class="seeSupp">responsibleAddress</th>
         <th class="seeSupp">expected time</th>
@@ -571,7 +574,7 @@ td
         <th class="seeSupp">latitude </th>
         <th class="seeSupp">longitude</th>
         <th class="seeSupp">time it began</th>
-    </tr>
+    </tr> -->
 </table>
 
 

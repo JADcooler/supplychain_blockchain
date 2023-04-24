@@ -37,8 +37,8 @@
       ]
     },
     "/home/c0pp3rscr3w3r/repos/supplychain_blockchain/contracts/Supply.sol": {
-      "lastModificationDate": 1682255551341,
-      "contentHash": "fbe5c5c8896e1eafb263fdd89b8d1e04",
+      "lastModificationDate": 1682361832227,
+      "contentHash": "ef485141c6038bb9a8008bb47947eb9f",
       "sourceName": "contracts/Supply.sol",
       "solcConfig": {
         "version": "0.8.17",

@@ -13,10 +13,7 @@ contract supplychain
     {
         return 23;
     }
-    constructor()
-    {
-        owner = msg.sender;
-    }
+   
 
     modifier onlyOwner()
     {
@@ -26,6 +23,9 @@ contract supplychain
     mapping(address => string) adrToVendor;
     event location(string indexed vendor, uint latitiude, uint longitude);
 
+
+    mapping(address => uint) adrToIndex;
+    
     //supply phase: supply units
     struct UNITS 
     {     
@@ -45,6 +45,12 @@ contract supplychain
 
     UNITS[] public Movers;
 
+    
+    function len() public view returns(uint256)
+    {
+        return Movers.length;
+    }
+
     function add_unit(UNITS memory param, string memory vendor) public onlyOwner
     {
      
@@ -52,7 +58,14 @@ contract supplychain
         Movers.push(param);
 
         adrToVendor[param.responsibleAddress] = vendor;
-        
+        adrToIndex[param.responsibleAddress] = param.index;
+    }
+
+    constructor()
+    {
+        owner = msg.sender;
+        UNITS memory dummy; //dummy to make check through index possible (else default will be 0)
+        add_unit(dummy,"");  
     }
 
     function modifyAdr(address adr, string memory vendor) public onlyOwner
@@ -65,19 +78,22 @@ contract supplychain
 
     function remove(uint index) onlyOwner public
     {
-    Movers[index] = Movers[Movers.length - 1];
-    Movers[index].index = index;
-    Movers.pop();
+        require(index!=0, "Cannot remove dummy Supplier unit at start of Movers array");
+        Movers[index] = Movers[Movers.length - 1];
+        Movers[index].index = index;
+        Movers.pop();
     }
 
-    function emitLocation(UNITS memory a) public
+    function emitLocation(uint256 lat, uint256 long) public
     {
-        require(msg.sender == a.responsibleAddress, "not vendor");
+        uint ind = adrToIndex[msg.sender];
+        require( (ind > 0) && (ind < Movers.length), "not vendor");
         //only vendor can emit events related to location updates
-        string memory vendor = adrToVendor[a.responsibleAddress];
-        uint latitude = a.latitude;
-        uint longitude = a.longitude;
-        emit location(vendor, latitude, longitude);
+        Movers[ind].latitude = lat;
+        Movers[ind].longitude = long;
+
+        string memory vendor = adrToVendor[msg.sender];        
+        emit location(vendor, lat, long);
     }
 
     function checkLocation(UNITS[] memory units) public pure returns(bool)

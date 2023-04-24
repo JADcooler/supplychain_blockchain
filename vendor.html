@@ -8,16 +8,57 @@
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
     type="application/javascript"></script>
     <script src="abi.js" type="application/javascript"></script>
-    
+    <style>
+
+        table, th, td 
+        {
+            border: 1px solid black;
+        }
+
+    </style>
 <h1> SUPPLYCHAIN MANAGEMENT VENDOR</h1>
 <button onclick="asd()">connect</button>
 <p id="connected"></p>
 <p id="data"></p>
 <p id="data1"></p>
-<button onclick="writeDATA()"> Add Supply unit </button>
+
+<button onclick="seeSuppliers()">See suppliers</button>
+<br><br>
+<button onclick="emitIt()"> Emit location </button>
+
+<div id="flipIt" style="display:none">
+<table>
+
+<tr>
+<td>
+<label for="lat">Latitude</label>
+</td>
+<td>
+<input type='text' id="lat" >
+</td>
+</tr>
+
+<tr>
+    <td>
+<label for="long">longitude</label>
+        </td>
+        <td>
+<input type='text' id="long" >
+</td>
+</tr>
+<tr>
+    <td></td>
+    <td>
+<button id="emit" onclick="EMITIT()">EMIT</button>
+</td>
+</tr>
+
+</table>
+</div>
+<p id="result"></p>
 
 <script>
-     const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
 
     // MetaMask requires requesting permission to connect users accounts
     provider.send("eth_requestAccounts", []);
@@ -27,10 +68,37 @@
     // For this, you need the account signer...
     const signer = provider.getSigner();
 
-    contractAdr = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
+    contractAdr = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
     contractAbi = supplychainabi;
     
     const supplychain = new ethers.Contract(contractAdr, contractAbi, provider);
+
+    var c3=0;
+    async function EMITIT()
+    {
+        a = document.getElementById("lat").value;
+        b = document.getElementById("lat").value;
+
+        withSigner = await supplychain.connect(signer).emitLocation(a,b);
+        document.getElementById("result").innerHTML = "EMITTED LOCATION SUCCESSFULLY"
+    }
+
+    function emitIt()
+    {
+        if(c3==0)
+        {
+            fI = document.getElementById("flipIt");
+            fI.style.display = "initial";
+            c3=1;
+        }
+        else
+        {
+            fI = document.getElementById("flipIt");
+            fI.style.display = "none";
+            c3=0;         
+        }
+    }
+
 
     async function asd()
     {
@@ -56,90 +124,181 @@
     catch(err) {
         document.getElementById("data").innerHTML = err.message;
     }
-
-    
+   
     //The below methods are state changing and require a signer
+   
+    }
 
-    
-}
-    //first to add an unit, we want all detail to the UNIT struct
-    //initial location can be just 0
+    var c2 = 0;
+    async function seeSuppliers()
+    {
+        x = await supplychain.Movers(0)
+        console.log(x)
+        console.log("printing length of movers array")
+        len = await supplychain.len()
+        console.log(len)
 
-    function makeUNIT(aindex, aresponsibleAddress, aexpected_time, aquantity, aexp_latitude, aexp_longitude, alatitude, alongitude, atime_began)
-    {     
-        const obj = {
-        index : aindex,
-
-        responsibleAddress : aresponsibleAddress,
-        expected_time : aexpected_time,
-        quantity : aquantity,
-        exp_latitude : aexp_latitude,
-        exp_longitude : aexp_longitude,
-
-        
-        latitude : alatitude,
-        longitude : alongitude,
-        time_began : atime_began
+        if(c2==0)
+        {
+            x = document.getElementById("TABLE1")
+            x.style.display = 'block';
+            c2 =1;
+        }
+        else
+        {
+            x = document.getElementById("TABLE1")
+            x.style.display = 'none';
+            c2 =0;
         }
 
-        return obj;
-    }
-
-    function promptUNIT()
-    {
-        index = prompt("Enter index")
-        responsibleAddress = prompt("Enter responsible address")
-        expected_time = prompt("Enter expected time")
-        quantity = prompt("Enter quantity")
-        exp_latitude = prompt("Enter expected latitude")
-        exp_longitude = prompt("Enter expected longitude")
-        latitude = prompt("latitude")
-        longitude = prompt("Enter longitude")
-        time_began = prompt("Enter time at which supply started to move")
-
-        result = makeUNIT(index, responsibleAddress, expected_time, quantity, exp_latitude, exp_longitude, latitude, longitude, time_began);    
-        console.log(result)
-        return result
-    }
-
-    function prn(str)
-    {
-        document.getElementById("data").innerHTML = str;
-    }
-
-    async function writeDATA()
-    {
-        // a = promptUNIT()
-        // document.getElementById('data').innerHTML = a;
-        // console.log(a)
-        // console.log({2:3, 4:4})
-
-        /*
-        const obj = {
-        index : 0,
-
-        responsibleAddress : '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-        expected_time : 0,
-        quantity : 0,
-        exp_latitude : 0,
-        exp_longitude : 0,
-
         
-        latitude : 0,
-        longitude : 0,
-        time_began : 0
+
+        for(i=1;i<len;i++)
+        {            
+            console.log("value of i is "+i)
+            try
+            {
+                p = await supplychain.Movers(i)
+
+                console.log("len is " + len +" ITERATING "+i)
+                
+                console.log( i.toString() + ""  )
+
+
+                index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
+
+                responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
+                responsibleAddress.innerHTML = p['responsibleAddress'];
+
+                expected_time = document.getElementById(i.toString() + "" + 3) //td //expected_time                    
+                expected_time.innerHTML = p['expected_time'];
+
+                quantity = document.getElementById(i.toString() + "" + 4) //td //quantity                    
+                quantity.innerHTML = p['quantity'];
+
+                exp_latitude = document.getElementById(i.toString() + "" + 5) //td //exp_latitude                    
+                exp_latitude.innerHTML = p['exp_latitude'];
+
+                exp_longitude = document.getElementById(i.toString() + "" + 6) //td //exp_longitude                    
+                exp_longitude.innerHTML = p['exp_longitude'];
+
+                latitude = document.getElementById(i.toString() + "" + 7) //td //latitude                    
+                latitude.innerHTML = p['latitude'];
+
+                longitude = document.getElementById(i.toString() + "" + 8) //td //longitude                    
+                longitude.innerHTML = p['longitude'];
+                
+                time_began = document.getElementById(i.toString() + "" + 9) //td //time_began                    
+                time_began.innerHTML = p['time_began'];                 
+
+                
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
+            
         }
-            */
+
         
 
-        prn(withSigner)
-
-        prn("vendor emitted locations ")
 
     }
+
     
+
     
 </script>
+
+
+<table class="seeSupp" id="TABLE1" style="display:none">
+ 
+    <tr>
+    <th class="seeSupp">Index</th>
+    <th class="seeSupp">responsibleAddress</th>
+    <th class="seeSupp">expected time</th>
+    <th class="seeSupp">quantity</th>
+    <th class="seeSupp">expected latitude</th>
+    <th class="seeSupp">expected longitude</th>
+    <th class="seeSupp">latitude </th>
+    <th class="seeSupp">longitude</th>
+    <th class="seeSupp">time it began</th>
+    </tr>
+    
+    <tr id="0">
+        <td class="seeSupp" id="01"></td>
+        <td class="seeSupp" id="02"></td>
+        <td class="seeSupp" id="03"></td>
+        <td class="seeSupp" id="04"></td>
+        <td class="seeSupp" id="05"></td>    
+        <td class="seeSupp" id="06"></td>
+        <td class="seeSupp" id="07"></td>
+        <td class="seeSupp" id="08"></td>
+        <td class="seeSupp" id="09"></td>
+    </tr>
+    
+    <tr id="1" >
+        <td class="seeSupp" id="11"></td>
+        <td class="seeSupp" id="12"></td>
+        <td class="seeSupp" id="13"></td>
+        <td class="seeSupp" id="14"></td>
+        <td class="seeSupp" id="15"></td>    
+        <td class="seeSupp" id="16"></td>
+        <td class="seeSupp" id="17"></td>
+        <td class="seeSupp" id="18"></td>
+        <td class="seeSupp" id="19"></td>
+    </tr>
+
+    <tr id="2" >
+        <td class="seeSupp" id="21"></td>
+        <td class="seeSupp" id="22"></td>
+        <td class="seeSupp" id="23"></td>
+        <td class="seeSupp" id="24"></td>
+        <td class="seeSupp" id="25"></td>    
+        <td class="seeSupp" id="26"></td>
+        <td class="seeSupp" id="27"></td>
+        <td class="seeSupp" id="28"></td>
+        <td class="seeSupp" id="29"></td>
+    </tr>
+
+    <tr id="3" >
+        <td class="seeSupp" id="31"></td>
+        <td class="seeSupp" id="32"></td>
+        <td class="seeSupp" id="33"></td>
+        <td class="seeSupp" id="34"></td>
+        <td class="seeSupp" id="35"></td>    
+        <td class="seeSupp" id="36"></td>
+        <td class="seeSupp" id="37"></td>
+        <td class="seeSupp" id="38"></td>
+        <td class="seeSupp" id="39"></td>
+    </tr>
+
+    <tr id="4" >
+        <td class="seeSupp" id="41"></td>
+        <td class="seeSupp" id="42"></td>
+        <td class="seeSupp" id="43"></td>
+        <td class="seeSupp" id="44"></td>
+        <td class="seeSupp" id="45"></td>    
+        <td class="seeSupp" id="46"></td>
+        <td class="seeSupp" id="47"></td>
+        <td class="seeSupp" id="48"></td>
+        <td class="seeSupp" id="49"></td>
+    </tr>
+
+    <tr id="5" >
+        <td class="seeSupp" id="51"></td>
+        <td class="seeSupp" id="52"></td>
+        <td class="seeSupp" id="53"></td>
+        <td class="seeSupp" id="54"></td>
+        <td class="seeSupp" id="55"></td>    
+        <td class="seeSupp" id="56"></td>
+        <td class="seeSupp" id="57"></td>
+        <td class="seeSupp" id="58"></td>
+        <td class="seeSupp" id="59"></td>
+    </tr>
+    
+
+</table>
 
 
 </body>

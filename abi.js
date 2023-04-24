@@ -300,61 +300,32 @@ supplychainabi = [
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "index",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "responsibleAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "expected_time",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "quantity",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "exp_latitude",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "exp_longitude",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "latitude",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "longitude",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "time_began",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct supplychain.UNITS",
-        "name": "a",
-        "type": "tuple"
+        "internalType": "uint256",
+        "name": "lat",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "long",
+        "type": "uint256"
       }
     ],
     "name": "emitLocation",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "len",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
