@@ -78,7 +78,7 @@
     async function EMITIT()
     {
         a = document.getElementById("lat").value;
-        b = document.getElementById("lat").value;
+        b = document.getElementById("long").value;
 
         withSigner = await supplychain.connect(signer).emitLocation(a,b);
         document.getElementById("result").innerHTML = "EMITTED LOCATION SUCCESSFULLY"
