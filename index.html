@@ -13,6 +13,7 @@
 <button onclick="asd()">connect</button>
 <p id="connected"></p>
 <p id="data"></p>
+<p id="data3"></p>
 <p id="data1"></p>
 <button onclick="showSupply()"> Add Supply unit </button>
 <style>
@@ -61,18 +62,18 @@ td
    
     //https://docs.ethers.org/v5/getting-started/
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
-    ADDRESS = signer.getAddress()
+    var ADDRESS = await signer.getAddress()
     bl = await provider.getBalance(ADDRESS)
     document.getElementById("connected").innerHTML = "Wallet connected"
     
     document.getElementById("data").innerHTML = bl + ' IS THE BALANCE OF WALLET'
-    
+    document.getElementById("data1").innerHTML = " ADDRESS OF CURRENT WALLET " + ADDRESS  
     //IF YOU GET UNREFERENCED FUNCTION ERROR, MAKE SURE ASYNC IS
     //ENABLED PROPERLY IF FUNCTION HAS AWAITS
 
     try {
         owner = await supplychain.owner();
-        document.getElementById("data1").innerHTML = "owner is "+owner;
+        document.getElementById("data3").innerHTML = "owner is "+owner;
     }
     catch(err) {
         document.getElementById("data").innerHTML = err.message;
@@ -86,10 +87,10 @@ td
     //first to add an unit, we want all detail to the UNIT struct
     //initial location can be just 0
 
-    function makeUNIT(aindex, aresponsibleAddress, aexpected_time, aquantity, aexp_latitude, aexp_longitude, alatitude, alongitude, atime_began)
+    function makeUNIT(aresponsibleAddress, aexpected_time, aquantity, aexp_latitude, aexp_longitude, alatitude, alongitude, atime_began)
     {     
         const obj = {
-        index : aindex,
+        index : 0, //value doesn't matter, smart contract assigns its own
 
         responsibleAddress : aresponsibleAddress,
         expected_time : aexpected_time,
@@ -106,26 +107,10 @@ td
         return obj;
     }
 
-    function promptUNIT()
-    {
-        index = prompt("Enter index")
-        responsibleAddress = prompt("Enter responsible address")
-        expected_time = prompt("Enter expected time")
-        quantity = prompt("Enter quantity")
-        exp_latitude = prompt("Enter expected latitude")
-        exp_longitude = prompt("Enter expected longitude")
-        latitude = prompt("latitude")
-        longitude = prompt("Enter longitude")
-        time_began = prompt("Enter time at which supply started to move")
-
-        result = makeUNIT(index, responsibleAddress, expected_time, quantity, exp_latitude, exp_longitude, latitude, longitude, time_began);    
-        console.log(result)
-        return result
-    }
-
+    
     async function parseIt()
     {
-        index = document.getElementById('index').value
+        vendor = document.getElementById('vendor').value
         responsibleAddress = document.getElementById('ra').value
         expected_time = document.getElementById('xtime').value
         quantity = document.getElementById('quantity').value
@@ -135,10 +120,10 @@ td
         longitude = document.getElementById('long').value
         time_began = document.getElementById('startTime').value
 
-        result = makeUNIT(index, responsibleAddress, expected_time, quantity, exp_latitude, exp_longitude, latitude, longitude, time_began);    
+        result = makeUNIT(responsibleAddress, expected_time, quantity, exp_latitude, exp_longitude, latitude, longitude, time_began);    
         console.log(result)
 
-        let withSigner = await supplychain.connect(signer).add_unit(result, "vendor1")
+        let withSigner = await supplychain.connect(signer).add_unit(result, vendor)
         prn("VENDOR SUCCESSFULLY ADDED")
         //return result
     }
@@ -170,96 +155,7 @@ td
         document.getElementById("WRITE").innerHTML = str;
     }
 
-    async function writeDATA()
-    {
-        a = promptUNIT()
-        document.getElementById('data').innerHTML = a;
-        console.log(a)
-        console.log({2:3, 4:4})
-
-        /*
-        const obj = {
-        index : 0,
-
-        responsibleAddress : '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-        expected_time : 0,
-        quantity : 0,
-        exp_latitude : 0,
-        exp_longitude : 0,
-
-        
-        latitude : 0,
-        longitude : 0,
-        time_began : 0
-        }
-            */
-        withSigner = await supplychain.connect(signer).add_unit(a, "vendor1")
-        //withSigner = await supplychain.connect(signer).emitLocation(a)
-
-        myAddress = await signer.getAddress()
-        // '0x8ba1f109551bD432803012645Ac136ddd64DBA72'
-
-        // Filter for all token transfers from me
-        //filterFrom = daiContract.filters.Transfer(myAddress, null);
-        // {
-        //   address: 'dai.tokens.ethers.eth',
-        //   topics: [
-        //     '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
-        //     '0x0000000000000000000000008ba1f109551bd432803012645ac136ddd64dba72'
-        //   ]
-        // }
-
-        
-
-        prn(withSigner)
-
-        prn("vendor successfully added as UNIT in block and emitted ")
-
-    }
-
-    function addRow() {
-      // Get the table element in which you want to add row
-      let table = document.getElementById("TABLE2");
-   
-      // Create a row using the inserRow() method and
-      // specify the index where you want to add the row
-      let row = table.insertRow(-1); // We are adding at the end
-   
-      // Create table cells
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-   
-      // Add data to c1 and c2
-      c1.innerText = "Elon"
-      c2.innerText = 45
-      c3.innerText = "Houston"
-   }
-
     
-    // function checkIfCellsAreEmpty(row) {
-    // var cells =  row.cells;
-    // var isCellEmpty = false;
-    //     for(var j = 0; j < cells.length; j++) {
-    //         if(cells[j].innerHTML !== '') {
-    //         return isCellEmpty;
-    //         }
-    //     }
-    //     return !isCellEmpty;
-    //     }
-
-    // function deleteEmptyRows() {
-    // var myTable = document.getElementById("TABLE1");
-    //     for(var i = 0; i < myTable.rows.length; i++) {
-    //         var isRowEmpty = checkIfCellsAreEmpty(myTable.rows[i]);
-    //         if (isRowEmpty) {
-    //             myTable.rows[i].style.display = "none";
-    //         }
-            
-    //     }
-    // }
-
-
     var c2 = 0;
     async function seeSuppliers()
     {
@@ -298,8 +194,14 @@ td
                 
                 console.log( i.toString() + ""  )
 
+                ADDRESS  =  p['responsibleAddress'];
+                console.log("RESPONSIBLE ADDRESS IS ")
+                console.log(ADDRESS)
+                vendorN = await supplychain.adrToVendor(ADDRESS)
+                console.log("vendor name is ")
+                console.log(vendorN)
+                document.getElementById(i.toString() + "" + 1).innerHTML = vendorN;
 
-                index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
 
                 responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
                 responsibleAddress.innerHTML = p['responsibleAddress'];
@@ -347,14 +249,15 @@ td
         <h1 class="flipVis">Add supply unit</h1>
         <table class="flipVis">
 
+
         <tr>
         <div class="field">
             <td>
-            <label for="index">Index:</label>
+            <label for="vendor">Vendor name:</label>
             </td>
             <td>
-            <input type="number" id="index" name="index" placeholder="Enter index" />
-            </td>            
+            <input type="text" id="vendor" name="vendor" placeholder="Enter the vendor name of the supply unit" />
+            </td>
         </div>
         </tr>
 

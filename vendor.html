@@ -20,6 +20,7 @@
 <button onclick="asd()">connect</button>
 <p id="connected"></p>
 <p id="data"></p>
+<p id="data3"></p>
 <p id="data1"></p>
 
 <button onclick="seeSuppliers()">See suppliers</button>
@@ -109,17 +110,18 @@
    
     //https://docs.ethers.org/v5/getting-started/
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
-    ADDRESS = signer.getAddress()
+    ADDRESS = await signer.getAddress()
     bl = await provider.getBalance(ADDRESS)
     document.getElementById("connected").innerHTML = "Wallet connected"
     
     document.getElementById("data").innerHTML = bl + ' IS THE BALANCE OF WALLET'
+    document.getElementById("data1").innerHTML = " ADDRESS OF CURRENT WALLET " + ADDRESS  
     
     
 
     try {
         owner = await supplychain.owner();
-        document.getElementById("data1").innerHTML = "owner is "+owner;
+        document.getElementById("data3").innerHTML = "owner is "+owner;
     }
     catch(err) {
         document.getElementById("data").innerHTML = err.message;
@@ -164,8 +166,14 @@
                 
                 console.log( i.toString() + ""  )
 
+                ADDRESS  =  p['responsibleAddress'];
+                console.log("RESPONSIBLE ADDRESS IS ")
+                console.log(ADDRESS)
+                vendorN = await supplychain.adrToVendor(ADDRESS)
+                console.log("vendor name is ")
+                console.log(vendorN)
+                document.getElementById(i.toString() + "" + 1).innerHTML = vendorN;
 
-                index = document.getElementById(i.toString() + "" + 1).innerHTML = p['index'];
 
                 responsibleAddress = document.getElementById(i.toString() + "" + 2) //td //responsibleAddress                    
                 responsibleAddress.innerHTML = p['responsibleAddress'];
@@ -214,7 +222,7 @@
 <table class="seeSupp" id="TABLE1" style="display:none">
  
     <tr>
-    <th class="seeSupp">Index</th>
+    <th class="seeSupp">Vendor</th>
     <th class="seeSupp">responsibleAddress</th>
     <th class="seeSupp">expected time</th>
     <th class="seeSupp">quantity</th>

@@ -20,7 +20,7 @@ contract supplychain
         require(msg.sender == owner, "Authorized only to Owner");
         _;
     }
-    mapping(address => string) adrToVendor;
+    mapping(address => string) public adrToVendor;
     event location(string indexed vendor, uint latitiude, uint longitude);
 
 
