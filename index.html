@@ -281,7 +281,21 @@ button:hover {background-color: violet;}
 
     }
     
-    
+    async function combine(){
+
+        stri = document.getElementById("combineVendors")
+        arr = stri.split(',')
+        w = []
+        for (i =0;i<arr.length;i++){
+            x = arr[i]
+            x2 = await supplychain.adrToIndex(stri)
+            x3 = await supplychain.Movers(x2)
+            w.push(x3)
+        }
+
+        withSigner = await supplychain.connect(signer).combine("0x", w)
+        document.getElementById("data5").innerHTML = "COMBINED VENDORS SUCCESFULLY"
+    }
 </script>
 
 <div id="formit">
@@ -519,8 +533,9 @@ button:hover {background-color: violet;}
         <th class="seeSupp">time it began</th>
     </tr> -->
 </table>
-
-
+<input id="combineVendors" type="text" placeholder="Enter vendor's address seperated by comma" style="width: 300px">
+<button onclick="combine()">Combine </button>
+<p id="data5"></p>
 </body>
 
 </html>

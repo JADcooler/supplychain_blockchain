@@ -120,7 +120,7 @@ contract supplychain
             remove(units[i].index);
         }
         //Leaving last UNIT to be the integrated one
-        units[till-1].responsibleAddress = RA;
+        add_unit(units[till-1],adrToVendor[units[till-1].responsibleAddress]);
 
 
     }
