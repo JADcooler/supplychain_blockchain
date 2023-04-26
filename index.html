@@ -3,6 +3,65 @@
 <head><meta charset="utf-8">
 
 <title> Retail Supply chain </title>
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<style>
+
+h1 {
+      background-color: #F1F1F1;
+      text-align: center;
+      padding: 20px;
+    }
+
+
+    table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color: grey;}
+
+    button {
+  background-color: #e7e7e7; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+    }
+    button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+button:hover {background-color: violet;}
+
+
+    .flipVis 
+    {
+        display: none;
+    }
+    
+    .seeSupp
+    {
+        
+        border: 1px solid black;    
+        
+    }
+    
+    td 
+    {
+        border: 1px solid black;    
+    }
+    
+    </style>
 
 </head><body>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
@@ -16,26 +75,7 @@
 <p id="data3"></p>
 <p id="data1"></p>
 <button onclick="showSupply()"> Add Supply unit </button>
-<style>
 
-.flipVis 
-{
-    display: none;
-}
-
-.seeSupp
-{
-    
-    border: 1px solid black;    
-    
-}
-
-td 
-{
-    border: 1px solid black;    
-}
-
-</style>
 <script>
     const provider = new ethers.providers.Web3Provider(window.ethereum)
 
